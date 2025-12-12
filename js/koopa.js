@@ -142,6 +142,19 @@
     
     this.pos[0] += this.vel[0];
     this.pos[1] += this.vel[1];
+    
+    // Keep flying koopas within bounds
+    if (this.para && !this.shell) {
+      if (this.pos[1] < 0) {
+        this.pos[1] = 0;
+        this.vel[1] = 0;
+      }
+      if (this.pos[1] > 208) {
+        this.pos[1] = 208;
+        this.vel[1] = 0;
+      }
+    }
+    
     this.sprite.update(dt);
   };
 

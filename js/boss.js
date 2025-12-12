@@ -52,6 +52,12 @@
     this.pos[0] += this.vel[0];
     this.pos[1] += this.vel[1];
     
+    // Keep boss within level boundaries
+    if (this.pos[0] < 0) this.pos[0] = 0;
+    if (this.pos[0] > 240) this.pos[0] = 240;
+    if (this.pos[1] < 32) this.pos[1] = 32; // Below ceiling
+    if (this.pos[1] > 192) this.pos[1] = 192; // Above floor
+    
     // Shooting logic
     this.shootTimer -= dt;
     if (this.shootTimer <= 0 && Math.abs(this.pos[0] - player.pos[0]) < 200) {

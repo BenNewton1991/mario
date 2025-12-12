@@ -82,19 +82,24 @@
     var baseX = Math.floor(this.pos[0] / 16);
     var baseY = Math.floor(this.pos[1] / 16);
 
-    if (baseY + h > 15) {
+    // Check all bounds - delete fireball if out of bounds
+    if (baseY < 0 || baseY + h > 15 || baseX < 0 || baseX + w > level.statics[0].length) {
       delete fireballs[this.idx];
-      player.fireballs -= 1;
+      if (player.fireballs > 0) player.fireballs -= 1;
       return;
     }
 
     for (var i = 0; i < h; i++) {
       for (var j = 0; j < w; j++) {
-        if (level.statics[baseY + i][baseX + j]) {
-          level.statics[baseY + i][baseX + j].isCollideWith(this);
-        }
-        if (level.blocks[baseY + i][baseX + j]) {
-          level.blocks[baseY + i][baseX + j].isCollideWith(this);
+        // Additional safety check before accessing array
+        if (baseY + i >= 0 && baseY + i < level.statics.length && 
+            baseX + j >= 0 && baseX + j < level.statics[0].length) {
+          if (level.statics[baseY + i][baseX + j]) {
+            level.statics[baseY + i][baseX + j].isCollideWith(this);
+          }
+          if (level.blocks[baseY + i][baseX + j]) {
+            level.blocks[baseY + i][baseX + j].isCollideWith(this);
+          }
         }
       }
     }
